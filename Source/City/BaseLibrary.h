@@ -495,9 +495,8 @@ struct FSimplePlot {
 
 	FSimplePlot() {}
 
-	FSimplePlot(const SimplePlotType inType, const FPolygon &inPol, float inOffset = 0) : type(inType), pol(inPol) {
+	FSimplePlot(const FPolygon& inPol, const SimplePlotType inType, float inOffset = 0) : pol(inPol), type(inType) {
 		pol.offset(FVector(0, 0, inOffset));
-
 	}
 
 

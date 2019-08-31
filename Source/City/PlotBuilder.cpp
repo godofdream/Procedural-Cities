@@ -225,7 +225,8 @@ FPlotInfo APlotBuilder::generateHousePolygons(FPlotPolygon p, int minFloors, int
 				normalPlacement = true;
 			}
 			else {
-				FSimplePlot fs = FSimplePlot(p.simplePlotType, p, simplePlotGroundOffset);
+				//FSimplePlot fs = FSimplePlot(p.simplePlotType, p, simplePlotGroundOffset);
+				FSimplePlot fs = FSimplePlot(p, p.simplePlotType, simplePlotGroundOffset);
 				fs.decorate(placed, instancedMap);
 				info.leftovers.Add(fs);
 
@@ -234,7 +235,8 @@ FPlotInfo APlotBuilder::generateHousePolygons(FPlotPolygon p, int minFloors, int
 		if (normalPlacement) {
 			// have a chance of just making it empty
 			if (stream.FRand() < 0.05) {
-				FSimplePlot fs = FSimplePlot(p.simplePlotType, p, simplePlotGroundOffset);
+				//FSimplePlot fs = FSimplePlot(p.simplePlotType, p, simplePlotGroundOffset);
+				FSimplePlot fs = FSimplePlot(p, p.simplePlotType, simplePlotGroundOffset);
 				fs.decorate(instancedMap);
 				info.leftovers.Add(fs);
 			}
@@ -242,7 +244,8 @@ FPlotInfo APlotBuilder::generateHousePolygons(FPlotPolygon p, int minFloors, int
 				float currMaxArea = stream.FRandRange(minMaxArea, maxMaxArea);
 				if (p.getArea() > currMaxArea * 8) {
 					// area is too large for even the max number of buildings, just make it a green simple plot
-					FSimplePlot fs = FSimplePlot(SimplePlotType::green, p, simplePlotGroundOffset);
+					//FSimplePlot fs = FSimplePlot(SimplePlotType::green, p, simplePlotGroundOffset);
+					FSimplePlot fs = FSimplePlot(p, SimplePlotType::green, simplePlotGroundOffset);
 					fs.decorate(instancedMap);
 					info.leftovers.Add(fs);
 				}
@@ -262,7 +265,8 @@ FPlotInfo APlotBuilder::generateHousePolygons(FPlotPolygon p, int minFloors, int
 
 					if (area < minArea) {
 						// too small, turn into simple plot
-						FSimplePlot fs = FSimplePlot(p.simplePlotType, r, simplePlotGroundOffset);
+						//FSimplePlot fs = FSimplePlot(p.simplePlotType, r, simplePlotGroundOffset);
+						FSimplePlot fs = FSimplePlot(r, p.simplePlotType, simplePlotGroundOffset);
 						fs.type = p.simplePlotType;
 						fs.decorate(instancedMap);
 						info.leftovers.Add(fs);

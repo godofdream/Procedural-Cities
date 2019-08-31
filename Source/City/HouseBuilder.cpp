@@ -300,7 +300,8 @@ FSimplePlot attemptMoveSideInwards(FHousePolygon &f, int place, FPolygon &center
 		pol.points.Add(toChange2To);
 		pol.offset(offset);
 		f.windows.Add(place);
-		FSimplePlot simplePlot = FSimplePlot(f.simplePlotType, pol);
+		//FSimplePlot simplePlot = FSimplePlot(f.simplePlotType, pol);
+		FSimplePlot simplePlot = FSimplePlot(pol, f.simplePlotType);
 		simplePlot.obstacles.Append(getBlockingEntrances(f.points, f.entrances, TMap<int32, FVector>(), 400, 1000));
 		return simplePlot;
 	}
@@ -415,7 +416,8 @@ void AHouseBuilder::makeInteresting(FHousePolygon &f, TArray<FSimplePlot> &toRet
 			TArray<FMaterialPolygon> res = ARoomBuilder::getSideWithHoles(f, holes, PolygonType::roof);
 			TArray<FSimplePlot> sPlots;
 			for (auto a : res) {
-				FSimplePlot plot (f.simplePlotType, a, simplePlotGroundOffset);
+				FSimplePlot plot (a, f.simplePlotType, simplePlotGroundOffset);
+				//FSimplePlot plot (f.simplePlotType, a, simplePlotGroundOffset);
 				sPlots.Add(plot);
 			}
 			toReturn.Append(sPlots);
