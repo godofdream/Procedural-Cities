@@ -529,7 +529,7 @@ FPolygon getEntranceHole(FVector p1, FVector p2, float floorHeight, float doorHe
 	doorPolygon.points.Add(p1 + side*distToDoor);
 	doorPolygon.points.Add(p1 + side*distToDoor + side*doorWidth);
 	doorPolygon.points.Add(p1 + side*distToDoor + side*doorWidth + FVector(0, 0, doorHeight));
-	return doorPolygon;
+	return std::move(doorPolygon);
 }
 
 FMeshInfo getEntranceMesh(FVector p1, FVector p2, FVector doorPos) {
@@ -549,7 +549,7 @@ TArray <FMaterialPolygon> fillOutPolygon(FMaterialPolygon &p) {
 		if (!p.overridePolygonSides)
 			polygonSides = false;
 	}
-	if (!p.overridePolygonSides && (p.type == PolygonType::floor || p.type == PolygonType::interior) || p.type == PolygonType::roof) {
+	if (!p.overridePolygonSides && (((p.type == PolygonType::floor) || (p.type == PolygonType::interior)) || (p.type == PolygonType::roof))) {
 		polygonSides = false;
 		other.type = PolygonType::interior;
 	}

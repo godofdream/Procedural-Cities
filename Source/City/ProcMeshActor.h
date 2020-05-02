@@ -4,7 +4,7 @@
 
 #include "GameFramework/Actor.h"
 #include "BaseLibrary.h"
-#include "RuntimeMeshComponent/Public/RuntimeMeshComponent.h"
+#include "ProceduralMeshComponent.h"
 
 #include "ProcMeshActor.generated.h"
 
@@ -75,7 +75,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	bool buildPolygons(TArray<FPolygon> &pols, FVector offset, URuntimeMeshComponent* mesh, UMaterialInterface *mat);
+	bool buildPolygons(TArray<FPolygon> &pols, FVector offset, UProceduralMeshComponent* mesh, UMaterialInterface *mat);
 
 
 	bool wantsToWork = false;
@@ -84,32 +84,32 @@ private:
 
 
 	UPROPERTY(VisibleAnywhere, Category = Meshes)
-	URuntimeMeshComponent* exteriorMesh;
+	UProceduralMeshComponent* exteriorMesh;
 	UPROPERTY(VisibleAnywhere, Category = Meshes)
-	URuntimeMeshComponent* interiorMesh;
+	UProceduralMeshComponent* interiorMesh;
 	UPROPERTY(VisibleAnywhere, Category = Meshes)
-	URuntimeMeshComponent * windowMesh;
+	UProceduralMeshComponent * windowMesh;
 	UPROPERTY(VisibleAnywhere, Category = Meshes)
-	URuntimeMeshComponent * occlusionWindowMesh;
+	UProceduralMeshComponent * occlusionWindowMesh;
 	UPROPERTY(VisibleAnywhere, Category = Meshes)
-	URuntimeMeshComponent * windowFrameMesh;
+	UProceduralMeshComponent * windowFrameMesh;
 	UPROPERTY(VisibleAnywhere, Category = Meshes)
-	URuntimeMeshComponent* sndExteriorMesh;
+	UProceduralMeshComponent* sndExteriorMesh;
 	UPROPERTY(VisibleAnywhere, Category = Meshes)
-	URuntimeMeshComponent * floorMesh;
+	UProceduralMeshComponent * floorMesh;
 	UPROPERTY(VisibleAnywhere, Category = Meshes)
-	URuntimeMeshComponent * roofMesh;
+	UProceduralMeshComponent * roofMesh;
 
 	UPROPERTY(VisibleAnywhere, Category = Meshes)
-		URuntimeMeshComponent * greenMesh;
+		UProceduralMeshComponent * greenMesh;
 	UPROPERTY(VisibleAnywhere, Category = Meshes)
-		URuntimeMeshComponent * concreteMesh;
+		UProceduralMeshComponent * concreteMesh;
 	UPROPERTY(VisibleAnywhere, Category = Meshes)
-		URuntimeMeshComponent * roadMiddleMesh;
+		UProceduralMeshComponent * roadMiddleMesh;
 	UPROPERTY(VisibleAnywhere, Category = Meshes)
-		URuntimeMeshComponent * asphaltMesh;
+		UProceduralMeshComponent * asphaltMesh;
 
-	TArray<URuntimeMeshComponent*> components;
+	TArray<UProceduralMeshComponent*> components;
 	TArray<UMaterialInterface*> materials;
 	TArray<TArray<FPolygon>> polygons;
 

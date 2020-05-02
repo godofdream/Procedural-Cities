@@ -101,7 +101,6 @@ FPolygon getTinyPolygon(FVector point);
 
 
 const float simplePlotGroundOffset = 30;
-const bool proceduralMeshesCollision = true;
 
 static FVector getNormal(FVector p1, FVector p2, bool right) {
 	return FRotator(0, right ? 90 : 270, 0).RotateVector(p2 - p1);
@@ -215,7 +214,7 @@ struct FPolygon
 			tan1.Normalize();
 			tan2.Normalize();
 			float dist = FVector::DotProduct(tan1, tan2);
-			if (dist < maxDot && points.Num() > 3) {
+			if ((dist < maxDot) && (points.Num() > 3)) {
 				points.RemoveAt((i + 1) % points.Num());
 				//changed = true;
 				i--;
@@ -291,7 +290,7 @@ struct FPolygon
 				continue;
 			}
 			FVector curr = intersection(point, point + inNormal * 100000, points[i - 1], points[i%points.Num()]);
-			if (curr.X != 0.0f && FVector::Dist(curr, point) < closest) {
+			if ((curr.X != 0.0f) && (FVector::Dist(curr, point) < closest)) {
 				closest = FVector::Dist(curr, point);
 				split = i;
 				p2 = curr;
@@ -704,7 +703,7 @@ struct FRoomPolygon : public FPolygon
 				// our child is now free from our master, but we're still slaves
 			}
 			// new cut doesn't interfere overlap with the entrance, now to see who gets it
-			if (first && isOnLine(point, points[num - 1], inPoint) || !first && !isOnLine(point, points[num - 1], inPoint)) {
+			if ((first && isOnLine(point, points[num - 1], inPoint)) || (!first && !isOnLine(point, points[num - 1], inPoint))) {
 				// i got it, no change
 			}
 			else {
@@ -1019,8 +1018,8 @@ struct FRoomPolygon : public FPolygon
 				for (int i = 0; i < remaining.Num(); i++) {
 					FRoomPolygon *r = remaining[i];
 					float area = r->getArea();
-					specSmallerThanRooms = specSmallerThanRooms && area > maxAreaAllowed;
-					if (area < maxAreaAllowed && area > spec.minArea) {
+					specSmallerThanRooms = specSmallerThanRooms && (area > maxAreaAllowed);
+					if ((area < maxAreaAllowed) && (area > spec.minArea)) {
 						// can place here
 						r->type = spec.type;
 						toReturn.Add(r);
@@ -1052,14 +1051,14 @@ struct FRoomPolygon : public FPolygon
 					// keep cutting it down until small enough to place my room
 					bool canPlace = true;
 					int count2 = 0;
-					while (scale < 1.0f && ++count2 < 5) {
+					while ((scale < 1.0f) && (++count2 < 5)) {
 						FRoomPolygon* newP = target->splitAlongMax(0.5, true);
 						if (newP == nullptr) {
 							remaining.Add(target);
 							canPlace = false;
 							break;
 						}
-						if (!splitableType(spec.type) && newP->getTotalConnections() < target->getTotalConnections() || splitableType(spec.type) && newP->getTotalConnections() > target->getTotalConnections()) {
+						if ((!splitableType(spec.type) && (newP->getTotalConnections() < target->getTotalConnections())) || (splitableType(spec.type) && (newP->getTotalConnections() > target->getTotalConnections()))) {
 							// swap rooms if newP is more suited for the purpose of the new room
 							std::swap(newP, target);
 						}
@@ -1075,7 +1074,7 @@ struct FRoomPolygon : public FPolygon
 
 				}
 			}
-		} while (repeating && anyRoomPlaced && ++count < 5);
+		} while (repeating && anyRoomPlaced && (++count < 5));
 
 		return toReturn;
 
@@ -1240,7 +1239,7 @@ struct FRoomPolygon : public FPolygon
 
 		if (blueprint.useHallway) {
 			for (FRoomPolygon *p : rooms) {
-				if (p->entrances.Num() > p->activeConnections.Num() && !splitableType(p->type)) {
+				if ((p->entrances.Num() > p->activeConnections.Num()) && !splitableType(p->type)) {
 					p->type = SubRoomType::hallway;
 					break;
 				}

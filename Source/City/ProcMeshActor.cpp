@@ -1,4 +1,3 @@
-#pragma once
 
 #include "City.h"
 #include "ProcMeshActor.h"
@@ -11,18 +10,18 @@ unsigned int AProcMeshActor::workersWorking{ 0 };
 AProcMeshActor::AProcMeshActor()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	exteriorMesh = CreateDefaultSubobject<URuntimeMeshComponent>(TEXT("exteriorMesh"));
-	sndExteriorMesh = CreateDefaultSubobject<URuntimeMeshComponent>(TEXT("sndExteriorMesh"));
-	interiorMesh = CreateDefaultSubobject<URuntimeMeshComponent>(TEXT("interiorMesh"));
-	windowMesh = CreateDefaultSubobject<URuntimeMeshComponent>(TEXT("windowMesh"));
-	windowFrameMesh = CreateDefaultSubobject<URuntimeMeshComponent>(TEXT("windowFrameMesh"));
-	occlusionWindowMesh = CreateDefaultSubobject<URuntimeMeshComponent>(TEXT("occlusionWindowMesh"));
-	floorMesh = CreateDefaultSubobject<URuntimeMeshComponent>(TEXT("floorMesh"));
-	roofMesh = CreateDefaultSubobject<URuntimeMeshComponent>(TEXT("roofMesh"));
-	greenMesh = CreateDefaultSubobject<URuntimeMeshComponent>(TEXT("greenMesh"));
-	concreteMesh = CreateDefaultSubobject<URuntimeMeshComponent>(TEXT("concreteMesh"));
-	roadMiddleMesh = CreateDefaultSubobject<URuntimeMeshComponent>(TEXT("roadMiddleMesh"));
-	asphaltMesh = CreateDefaultSubobject<URuntimeMeshComponent>(TEXT("asphaltMesh"));
+	exteriorMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("exteriorMesh"));
+	sndExteriorMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("sndExteriorMesh"));
+	interiorMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("interiorMesh"));
+	windowMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("windowMesh"));
+	windowFrameMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("windowFrameMesh"));
+	occlusionWindowMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("occlusionWindowMesh"));
+	floorMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("floorMesh"));
+	roofMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("roofMesh"));
+	greenMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("greenMesh"));
+	concreteMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("concreteMesh"));
+	roadMiddleMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("roadMiddleMesh"));
+	asphaltMesh = CreateDefaultSubobject<UProceduralMeshComponent>(TEXT("asphaltMesh"));
 	SetActorTickEnabled(false);
 
 }
@@ -47,7 +46,7 @@ AProcMeshActor::~AProcMeshActor()
 
 
 
-bool AProcMeshActor::buildPolygons(TArray<FPolygon> &pols, FVector offset, URuntimeMeshComponent* mesh, UMaterialInterface *mat) {
+bool AProcMeshActor::buildPolygons(TArray<FPolygon> &pols, FVector offset, UProceduralMeshComponent* mesh, UMaterialInterface *mat) {
 	if (mesh->GetNumSections() > 0 || pols.Num() == 0) {
 		return false;
 	}
@@ -58,7 +57,7 @@ bool AProcMeshActor::buildPolygons(TArray<FPolygon> &pols, FVector offset, URunt
 	TArray<FVector> normals;
 
 	TArray<FColor> vertexColors;
-	TArray<FRuntimeMeshTangent> tangents;
+	TArray<FProcMeshTangent> tangents;
 
 	int current = 0;
 	for (FPolygon &pol : pols) {
@@ -107,7 +106,7 @@ bool AProcMeshActor::buildPolygons(TArray<FPolygon> &pols, FVector offset, URunt
 
 
 	mesh->SetMaterial(0, mat);
-	mesh->CreateMeshSection(0, vertices, triangles, normals, UV, vertexColors, tangents, proceduralMeshesCollision, EUpdateFrequency::Infrequent);
+	mesh->CreateMeshSection(0, vertices, triangles, normals, UV, vertexColors, tangents, true);
 
 
 	return true;
@@ -287,7 +286,7 @@ void AProcMeshActor::BeginPlay()
 void AProcMeshActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (wantsToWork && workersWorking < maxThreads) {
+	if (wantsToWork && (workersWorking < maxThreads)) {
 		workersWorking++;
 		wantsToWork = false;
 		isWorking = true;

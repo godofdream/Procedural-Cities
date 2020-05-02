@@ -31,7 +31,7 @@ float NoiseSingleton::noise(float x, float y){
 	else {
 		FTexture2DMipMap* MyMipMap = &image->PlatformData->Mips[0];
 		FByteBulkData* RawImageData = &MyMipMap->BulkData;
-		FColor* FormatedImageData = static_cast<FColor*>(RawImageData->Lock(LOCK_READ_ONLY));
+		FColor* FormatedImageData = static_cast<FColor*>(static_cast<void*>(RawImageData->Lock(LOCK_READ_ONLY)));
 		uint32 TextureWidth = MyMipMap->SizeX, TextureHeight = MyMipMap->SizeY;
 		FColor PixelColor;
 
@@ -59,7 +59,7 @@ void NoiseSingleton::initForPerlin(float inX, float inY) {
 void NoiseSingleton::initForImage() {
 	FTexture2DMipMap* MyMipMap = &image->PlatformData->Mips[0];
 	FByteBulkData* RawImageData = &MyMipMap->BulkData;
-	FColor* FormatedImageData = static_cast<FColor*>(RawImageData->Lock(LOCK_READ_ONLY));
+	FColor* FormatedImageData = static_cast<FColor*>(static_cast<void*>(RawImageData->Lock(LOCK_READ_ONLY)));
 	uint32 TextureWidth = MyMipMap->SizeX, TextureHeight = MyMipMap->SizeY;
 	RawImageData->Unlock();
 
